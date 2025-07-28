@@ -1,16 +1,22 @@
-TRAIN_DATA_DIR=data/implicit-hate/IH_train.csv
-EVAL_DATA_DIR=data/implicit-hate/IH_val.csv
-TEST_DATA_DIR=data/implicit-hate/IH_test.csv
+# 设定数据路径（确保这些文件已存在于 Colab 当前工作目录）
+TRAIN_DATA_DIR=./data/implicit-hate/IH_train.csv
+EVAL_DATA_DIR=./data/implicit-hate/IH_val.csv
+TEST_DATA_DIR=./data/implicit-hate/IH_test.csv
 
+# 训练参数
 EPOCH=10
 BATCH_SIZE=32
 EVAL_BATCH_SIZE=64
 GRAD_ACCUM_STEPS=1
-MODEL=YOUR_MODEL_HERE
-WANDB_NAME=YOUR_WANDB
-WANDB_ENTITY=YOUR_WANDB
-WANDB_GROUP=YOUR_WANDB
+MODEL=google/flan-t5-small   # 推荐一个已经支持的模型，可根据需求换成别的
+WANDB_NAME=implicit-hate-run-base
+WANDB_ENTITY=krdeyou
+WANDB_GROUP=implicit-hate-group
 
+# 输出目录
+OUTPUT_DIR=outputs/implicit-t5-1
+
+# 启动训练
 python -m finetune_t5 \
 	--output_dir outputs/$WANDB_NAME/ \
 	--report_to wandb \

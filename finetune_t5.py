@@ -21,10 +21,14 @@ def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
-    wandb.init(project=data_args.tasks,
-               entity=data_args.entity,
-               group=data_args.wandb_group,
-               name=data_args.wandb_name)
+    wandb.init(
+    project=data_args.tasks,
+    # entity=data_args.wandb_entity,   # 改这里，改成 wandb_entity
+    # group=data_args.wandb_group,
+    name=data_args.wandb_name,
+    mode="online"
+    )
+
     
     # set seed
     set_seed(training_args.seed)
@@ -32,7 +36,9 @@ def main():
     model = AutoModelForSeq2SeqLM.from_pretrained(model_args.model_name_or_path, resume_download=True)
     tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path)
 
-    metrics = Metrics(tokenizer, training_args.output_dir, training_args.zero_shot_test)
+    zero_shot = getattr(training_args, "zero_shot_test", False)
+    metrics = Metrics(tokenizer, training_args.output_dir, zero_shot)
+    # metrics = Metrics(tokenizer, training_args.output_dir, training_args.zero_shot_test)
         
     if data_args.tasks == "implicit":
         compute_metrics = metrics.compute_implicit_metrics
