@@ -6,10 +6,10 @@ EPOCH=10
 BATCH_SIZE=32
 EVAL_BATCH_SIZE=128
 GRAD_ACCUM_STEPS=1
-MODEL=YOUR_MODEL_HERE
-WANDB_NAME=YOUR_WANDB
-WANDB_ENTITY=YOUR_WANDB
-WANDB_GROUP=YOUR_WANDB
+MODEL=google/flan-t5-small   # 推荐一个已经支持的模型，可根据需求换成别的
+WANDB_NAME=sbic-hate-run-base
+WANDB_ENTITY=krdeyou
+WANDB_GROUP=implicit-hate-group
 
 python -m finetune_t5 \
 	--output_dir outputs/$WANDB_NAME/ \
